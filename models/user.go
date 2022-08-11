@@ -18,6 +18,17 @@ type UsersProfileResponse struct {
 	Name string `json:"name"`
 }
 
+type UsersProductResponse struct {
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 func (UsersProfileResponse) TableName() string {
+	return "users"
+}
+
+func (UsersProductResponse) TableName() string {
 	return "users"
 }
