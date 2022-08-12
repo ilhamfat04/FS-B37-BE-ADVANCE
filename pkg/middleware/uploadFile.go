@@ -14,7 +14,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 		// FormFile returns the first file for the given key `myFile`
 		// it also returns the FileHeader so we can get the Filename,
 		// the Header and the size of the file
-		file, _, err := r.FormFile("image")
+		file, handler, err := r.FormFile("image")
 
 		if err != nil {
 			fmt.Println(err)
@@ -22,7 +22,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 		defer file.Close()
-		// fmt.Printf("Uploaded File: %+v\n", handler.Filename)
+		fmt.Printf("Uploaded File: %+v\n", handler.Filename)
 		// fmt.Printf("File Size: %+v\n", handler.Size)
 		// fmt.Printf("MIME Header: %+v\n", handler.Header)
 		const MAX_UPLOAD_SIZE = 10 << 20 // 10MB
@@ -38,7 +38,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 
 		// Create a temporary file within our temp-images directory that follows
 		// a particular naming pattern
-		tempFile, err := ioutil.TempFile("uploads", "image-*.png")
+		tempFile, err := ioutil.TempFile("uploads", "image-*"+handler.Filename+".png")
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println("path upload error")
